@@ -11,7 +11,7 @@
             android:id="@+id/new_balance"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="119dp"
+            android:layout_marginTop="116dp"
             android:layout_marginLeft="24dp"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
@@ -20,9 +20,54 @@
             android:ems="10"
             android:text="-1"
             android:typeface="monospace"
-            android:textSize="30sp"
+            android:textSize="50sp"
+            android:gravity="right"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            style="@style/main"
     />
+    <LinearLayout
+            android:id="@+id/fixed_amount_buttons"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@+id/new_balance"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+    >
+        <Button
+                android:id="@+id/fixed_amount_button1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="+ ¥500"
+                android:textSize="30sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+        />
+        <Button
+                android:id="@+id/fixed_amount_button2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="+ ¥900"
+                android:textSize="30sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+        />
+        <Button
+                android:id="@+id/fixed_amount_button3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="+ ¥1,200"
+                android:textSize="30sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+        />
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>
