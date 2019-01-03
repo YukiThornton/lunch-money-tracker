@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="?attr/colorBackgroundFloating"
+        app:contentPadding="8dp" android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp" android:layout_marginBottom="10dp">
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <TextView
+                android:id="@+id/date"
+                android:text="2018/12/11"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                app:fontFamily="serif-monospace"/>
+        <TextView
+                android:id="@+id/money"
+                android:text="+1000"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="?android:attr/textColorSecondary"
+                android:gravity="right"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                app:fontFamily="serif-monospace"
+        />
+    </LinearLayout>
+</android.support.v7.widget.CardView>

@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">Lunch Money Tracker</string>
-    <string name="btn_add_funds">Add Funds</string>
+    <string name="plus_symbol">+</string>
 </resources>

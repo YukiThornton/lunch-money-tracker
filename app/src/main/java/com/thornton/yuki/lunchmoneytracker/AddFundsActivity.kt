@@ -7,26 +7,27 @@ import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.LinearLayout
 import android.widget.TextView
+import com.thornton.yuki.lunchmoneytracker.storage.StorageManager
+import com.thornton.yuki.lunchmoneytracker.entity.Transaction
 
 class AddFundsActivity : AppCompatActivity() {
 
     private val tag = "LUNCH_DEV_ADD_FUNDS_ACT"
 
+    private val storage: StorageManager = StorageManager(this)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_funds)
 
-        val currentBalance = intent.getIntExtra(INTENT_KEY_CURRENT_BALANCE, -1)
         findViewById<EditText>(R.id.new_balance).apply {
-            setText(currentBalance.toString(), TextView.BufferType.EDITABLE)
+            setText("", TextView.BufferType.EDITABLE)
             setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
-                if (keyCode == KeyEvent.KEYCODE_ENTER) {
-                    changeBalanceAndReturnMain()
+                if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                    addFundsAndReturnMain(getBalanceFromInput())
                     return@OnKeyListener true
                 }
                 false
@@ -36,7 +37,7 @@ class AddFundsActivity : AppCompatActivity() {
         val buttonIds = arrayOf(R.id.fixed_amount_button1, R.id.fixed_amount_button2, R.id.fixed_amount_button3)
         for ((index, buttonId) in buttonIds.withIndex()) {
             findViewById<Button>(buttonId).apply {
-                setText("+ ¥${fixedAmounts[index]}", TextView.BufferType.NORMAL)
+                setText("+ ${fixedAmounts[index]}", TextView.BufferType.NORMAL)
                 setOnClickListener{ addFundsAndReturnMain(fixedAmounts[index]) }
             }
         }
@@ -44,21 +45,34 @@ class AddFundsActivity : AppCompatActivity() {
 
     private fun addFundsAndReturnMain(amount: Int) {
         Log.d(tag, "addFundsAndReturnMain: funds amount=$amount")
-        returnMain(getBalanceFromInput() + amount)
+
+        addAndSaveBalance(amount)
+
+        val transaction = Transaction(Transaction.Type.PLUS, amount)
+        addAndSaveTransaction(transaction)
+
+        returnMain(true)
     }
 
-    private fun changeBalanceAndReturnMain() {
-        returnMain(getBalanceFromInput())
+    private fun addAndSaveBalance(amountToAdd: Int) {
+        val total = amountToAdd + storage.getBalance()
+        storage.setBalance(total)
+    }
+
+    private fun addAndSaveTransaction(transactionToAdd: Transaction) {
+        val transactions = storage.getTransactions()
+        transactions.add(transactionToAdd)
+        storage.setTransactions(transactions)
     }
 
     private fun getBalanceFromInput() :Int {
         return Integer.parseInt(findViewById<EditText>(R.id.new_balance).text.toString())
     }
 
-    private fun returnMain(finalBalance: Int) {
-        Log.d(tag, "returnMain: finalBalance=$finalBalance")
+    private fun returnMain(hasNewEntry: Boolean) {
+        Log.d(tag, "returnMain: hasNewEntry=$hasNewEntry")
         val intent = Intent().apply {
-            putExtra(INTENT_KEY_CURRENT_BALANCE, finalBalance)
+            putExtra(INTENT_KEY_HAS_NEW_ENTRY, hasNewEntry)
         }
         setResult(Activity.RESULT_OK, intent)
         finish()
