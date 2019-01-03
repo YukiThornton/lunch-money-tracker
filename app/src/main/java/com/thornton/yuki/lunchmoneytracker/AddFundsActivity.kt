@@ -2,7 +2,7 @@ package com.thornton.yuki.lunchmoneytracker
 
 import android.app.Activity
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
@@ -44,7 +44,7 @@ class AddFundsActivity : AppCompatActivity() {
     }
 
     private fun addFundsAndReturnMain(amount: Int) {
-        Log.d(tag, "addFundsAndReturnMain: funds amount=$amount")
+        Log.d(tag, "Adding funds: +$amount")
 
         addAndSaveBalance(amount)
 
@@ -56,6 +56,7 @@ class AddFundsActivity : AppCompatActivity() {
 
     private fun addAndSaveBalance(amountToAdd: Int) {
         val total = amountToAdd + storage.getBalance()
+        Log.d(tag, "Changing balance from ${storage.getBalance()} to $total")
         storage.setBalance(total)
     }
 
@@ -70,7 +71,6 @@ class AddFundsActivity : AppCompatActivity() {
     }
 
     private fun returnMain(hasNewEntry: Boolean) {
-        Log.d(tag, "returnMain: hasNewEntry=$hasNewEntry")
         val intent = Intent().apply {
             putExtra(INTENT_KEY_HAS_NEW_ENTRY, hasNewEntry)
         }

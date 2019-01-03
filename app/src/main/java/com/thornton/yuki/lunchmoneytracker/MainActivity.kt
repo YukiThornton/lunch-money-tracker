@@ -3,12 +3,17 @@ package com.thornton.yuki.lunchmoneytracker
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.customview.customView
+import com.afollestad.materialdialogs.customview.getCustomView
 
 import com.thornton.yuki.lunchmoneytracker.storage.*
 import com.thornton.yuki.lunchmoneytracker.entity.Transaction
@@ -19,41 +24,64 @@ class MainActivity : AppCompatActivity() {
 
     private val tag = "LUNCH_DEV_MAIN_ACT"
     private val activityCode = 1
-    private var currentBalance: Int = -1
 
     private val storage: StorageManager = StorageManager(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d(tag, "onCreate")
         super.onCreate(savedInstanceState)
+        val balance = storage.getBalance()
+        Log.d(tag, "onCreate: balance=$balance")
 
         setContentView(R.layout.activity_main)
-        val balance = storage.getBalance()
-        setBalance(balance)
+        findViewById<TextView>(R.id.balance).apply {
+            setOnClickListener{ openEditBalanceDialog() }
+        }
+        findViewById<ImageButton>(R.id.edit_balance_button).apply {
+            setOnClickListener{ openEditBalanceDialog() }
+        }
+        updateBalanceInView(balance)
         updateTransactionCards()
     }
 
-    private fun setBalance(balance: Int) {
-        Log.d(tag, "setBalance: value=$balance")
-        currentBalance = balance
-        val currentBalanceTextView = findViewById<TextView>(R.id.balance)
-        currentBalanceTextView.text = currentBalance.toString()
+    private fun openEditBalanceDialog() {
+        val dialog = MaterialDialog(this)
+            .title(R.string.edit_balance_dialog_title)
+            .customView(R.layout.edit_balance_dialog)
+            .positiveButton(R.string.edit_balance_dialog_positive) {
+                val editText = it.getCustomView()!!.findViewById<EditText>(R.id.balance_input)
+                val newBalance = Integer.parseInt(editText.text.toString())
+
+                Log.d(tag, "Changing balance from ${storage.getBalance()} to $newBalance")
+
+                storage.setBalance(newBalance)
+                updateBalanceInView(newBalance)
+            }
+            .negativeButton(R.string.edit_balance_dialog_negative)
+        val customView = dialog.getCustomView()
+        customView!!.findViewById<EditText>(R.id.balance_input).apply {
+            setText(storage.getBalance().toString())
+        }
+        dialog.show()
+    }
+
+    private fun updateBalanceInView(balance: Int) {
+        findViewById<TextView>(R.id.balance).apply {
+            text = balance.toString()
+        }
     }
 
     fun onAddFundsClicked(view: View) {
-        Log.d(tag, "onAddFundsClicked")
         startAddFundsActivity()
     }
 
     private fun startAddFundsActivity() {
-        Log.d(tag, "startAddFundsActivity")
+        Log.d(tag, "Starting AddFundsActivity")
         val intent = Intent(this, AddFundsActivity::class.java)
         startActivityForResult(intent, activityCode)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.d(tag, "onActivityResult")
         if (requestCode == activityCode && resultCode == Activity.RESULT_OK) {
             val safeIntent = data ?: intent
             if (safeIntent.getBooleanExtra(INTENT_KEY_HAS_NEW_ENTRY, false)) {
@@ -63,7 +91,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun refreshView() {
-        setBalance(storage.getBalance())
+        Log.d(tag, "Refreshing views")
+        updateBalanceInView(storage.getBalance())
         updateTransactionCards()
     }
 
@@ -82,10 +111,5 @@ class MainActivity : AppCompatActivity() {
             text = transaction.amountWithSymbol()
         }
         container.addView(newCard)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        storage.setBalance(currentBalance)
     }
 }
