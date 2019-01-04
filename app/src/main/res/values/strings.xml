@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Lunch Money Tracker</string>
     <string name="plus_symbol">+</string>
-    <string name="edit_balance_dialog_title">Change Balance</string>
-    <string name="edit_balance_dialog_positive">Change</string>
+    <string name="edit_balance_dialog_title">Adjust Balance</string>
+    <string name="edit_balance_dialog_positive">Adjust</string>
     <string name="edit_balance_dialog_negative">Cancel</string>
 </resources>

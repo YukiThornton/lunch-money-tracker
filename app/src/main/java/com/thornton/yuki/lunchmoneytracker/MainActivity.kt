@@ -17,6 +17,9 @@ import com.afollestad.materialdialogs.customview.getCustomView
 
 import com.thornton.yuki.lunchmoneytracker.storage.*
 import com.thornton.yuki.lunchmoneytracker.entity.Transaction
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
 const val INTENT_KEY_HAS_NEW_ENTRY = "HAS_NEW_ENTRY"
 
@@ -24,6 +27,7 @@ class MainActivity : AppCompatActivity() {
 
     private val tag = "LUNCH_DEV_MAIN_ACT"
     private val activityCode = 1
+    private val dateFormat = SimpleDateFormat("MM/DD(EEE) HH:mm")
 
     private val storage: StorageManager = StorageManager(this)
 
@@ -110,6 +114,13 @@ class MainActivity : AppCompatActivity() {
         newCard.findViewById<TextView>(R.id.money).apply {
             text = transaction.amountWithSymbol()
         }
-        container.addView(newCard)
+        newCard.findViewById<TextView>(R.id.date).apply {
+            text = dateTimeText(transaction.calendar)
+        }
+        container.addView(newCard, 0)
+    }
+
+    private fun dateTimeText(cal: Calendar): String {
+        return dateFormat.format(cal.time)
     }
 }

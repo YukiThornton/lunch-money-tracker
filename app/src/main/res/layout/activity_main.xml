@@ -60,7 +60,7 @@
             android:layout_height="70dp"
             android:typeface="monospace"
             android:textStyle="bold"
-            android:textColor="@android:color/white"
+            android:textColor="?android:attr/textColorSecondaryInverseNoDisable"
             android:background="?attr/colorAccent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -34,7 +34,7 @@ class AddFundsActivity : AppCompatActivity() {
             })
         }
         val fixedAmounts = arrayOf(2000, 2100, 2200)
-        val buttonIds = arrayOf(R.id.fixed_amount_button1, R.id.fixed_amount_button2, R.id.fixed_amount_button3)
+        val buttonIds = arrayOf(R.id.option_1_button, R.id.option_2_button, R.id.option_3_button)
         for ((index, buttonId) in buttonIds.withIndex()) {
             findViewById<Button>(buttonId).apply {
                 setText("+ ${fixedAmounts[index]}", TextView.BufferType.NORMAL)
