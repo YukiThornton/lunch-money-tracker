@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="initial_balance">1000</integer>
+    <integer name="initial_fund_option_1">1000</integer>
+    <integer name="initial_fund_option_2">3000</integer>
+    <integer name="initial_fund_option_3">5000</integer>
+</resources>

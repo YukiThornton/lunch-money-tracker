@@ -9,7 +9,11 @@ import android.view.KeyEvent
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.TextView
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.customview.customView
+import com.afollestad.materialdialogs.customview.getCustomView
 import com.thornton.yuki.lunchmoneytracker.storage.StorageManager
 import com.thornton.yuki.lunchmoneytracker.entity.Transaction
 
@@ -18,6 +22,7 @@ class AddFundsActivity : AppCompatActivity() {
     private val tag = "LUNCH_DEV_ADD_FUNDS_ACT"
 
     private val storage: StorageManager = StorageManager(this)
+    private val optionButtonIds = arrayOf(R.id.option_1_button, R.id.option_2_button, R.id.option_3_button)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,13 +38,9 @@ class AddFundsActivity : AppCompatActivity() {
                 false
             })
         }
-        val fixedAmounts = arrayOf(2000, 2100, 2200)
-        val buttonIds = arrayOf(R.id.option_1_button, R.id.option_2_button, R.id.option_3_button)
-        for ((index, buttonId) in buttonIds.withIndex()) {
-            findViewById<Button>(buttonId).apply {
-                setText("+ ${fixedAmounts[index]}", TextView.BufferType.NORMAL)
-                setOnClickListener{ addFundsAndReturnMain(fixedAmounts[index]) }
-            }
+        updateOptionsInView()
+        findViewById<ImageButton>(R.id.edit_fund_option_button).apply {
+            setOnClickListener{ openEditOptionDialog() }
         }
     }
 
@@ -76,5 +77,40 @@ class AddFundsActivity : AppCompatActivity() {
         }
         setResult(Activity.RESULT_OK, intent)
         finish()
+    }
+
+    private fun openEditOptionDialog() {
+        val optionInputIds = listOf(R.id.option_1_input, R.id.option_2_input, R.id.option_3_input)
+        val dialog = MaterialDialog(this)
+            .title(R.string.edit_fund_option_dialog_title)
+            .customView(R.layout.edit_fund_option_dialog)
+            .positiveButton(R.string.edit_fund_option_dialog_positive) {
+                val newOptionValues = optionInputIds.map { id ->
+                    val editText = it.getCustomView()!!.findViewById<EditText>(id)
+                    Integer.parseInt(editText.text.toString())
+                }
+                Log.d(tag, "Updating fund option values: $newOptionValues")
+                storage.setFundOptions(newOptionValues)
+                updateOptionsInView()
+            }
+            .negativeButton(R.string.edit_fund_option_dialog_negative)
+        val customView = dialog.getCustomView()
+        val fundOptions = storage.getFundOptions()
+        optionInputIds.forEachIndexed { index, id ->
+            customView!!.findViewById<EditText>(id).apply {
+                setText(fundOptions[index].toString())
+            }
+        }
+        dialog.show()
+    }
+
+    private fun updateOptionsInView() {
+        val fundOptions = storage.getFundOptions()
+        for ((index, buttonId) in optionButtonIds.withIndex()) {
+            findViewById<Button>(buttonId).apply {
+                setText("+ ${fundOptions[index]}", TextView.BufferType.NORMAL)
+                setOnClickListener{ addFundsAndReturnMain(fundOptions[index]) }
+            }
+        }
     }
 }
