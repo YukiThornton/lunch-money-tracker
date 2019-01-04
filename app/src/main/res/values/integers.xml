@@ -4,4 +4,7 @@
     <integer name="initial_fund_option_1">1000</integer>
     <integer name="initial_fund_option_2">3000</integer>
     <integer name="initial_fund_option_3">5000</integer>
+    <integer name="initial_expense_option_1">400</integer>
+    <integer name="initial_expense_option_2">450</integer>
+    <integer name="initial_expense_option_3">500</integer>
 </resources>

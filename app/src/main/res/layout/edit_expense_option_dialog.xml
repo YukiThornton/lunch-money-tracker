@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" android:paddingRight="16dp" android:paddingLeft="16dp">
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/option_1">
+        <TextView
+                android:text="Option 1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/option_1_label" android:layout_weight="2"
+                android:fontFamily="monospace" android:typeface="monospace" android:textSize="18sp"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberSigned"
+                android:ems="10"
+                android:id="@+id/option_1_input" android:layout_weight="1" android:gravity="right"
+                android:fontFamily="monospace" android:typeface="monospace" android:textSize="24sp"
+                android:selectAllOnFocus="true"/>
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/option_2">
+        <TextView
+                android:text="Option 2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/option_2_label" android:layout_weight="2"
+                android:fontFamily="monospace" android:typeface="monospace" android:textSize="18sp"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberSigned"
+                android:ems="10"
+                android:id="@+id/option_2_input" android:layout_weight="1" android:gravity="right"
+                android:fontFamily="monospace" android:typeface="monospace" android:textSize="24sp"
+        />
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/option_3">
+        <TextView
+                android:text="Option 3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/option_3_label" android:layout_weight="2"
+                android:fontFamily="monospace" android:typeface="monospace" android:textSize="18sp"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberSigned"
+                android:ems="10"
+                android:id="@+id/option_3_input" android:layout_weight="1" android:gravity="right"
+                android:fontFamily="monospace" android:typeface="monospace" android:textSize="24sp"
+        />
+    </LinearLayout>
+
+</LinearLayout>

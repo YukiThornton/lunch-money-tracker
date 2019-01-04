@@ -10,6 +10,7 @@ import com.thornton.yuki.lunchmoneytracker.entity.Transaction
 const val PREF_KEY_CURRENT_BALANCE = "CURRENT_BALANCE"
 const val PREF_KEY_TRANSACTIONS = "TRANSACTIONS"
 val PREF_KEY_FUND_OPTIONS = listOf("FUND_OPTION_1", "FUND_OPTION_2", "FUND_OPTION_3")
+val PREF_KEY_EXPENSE_OPTIONS = listOf("EXPENSE_OPTION_1", "EXPENSE_OPTION_2", "EXPENSE_OPTION_3")
 
 class StorageManager(private val context: Context) {
 
@@ -57,4 +58,25 @@ class StorageManager(private val context: Context) {
         PREF_KEY_FUND_OPTIONS.forEachIndexed { index, key ->  prefEditor.putInt(key, newOptions[index])}
         prefEditor.apply()
     }
+
+    fun getExpenseOptions(): List<Int> {
+        val prefManager = PreferenceManager.getDefaultSharedPreferences(context)
+        val initialExpenseOptionValues = listOf(
+            context.resources.getInteger(R.integer.initial_expense_option_1),
+            context.resources.getInteger(R.integer.initial_expense_option_2),
+            context.resources.getInteger(R.integer.initial_expense_option_3)
+        )
+
+        return PREF_KEY_EXPENSE_OPTIONS.mapIndexed{index, key -> prefManager.getInt(key, initialExpenseOptionValues[index])}
+    }
+
+    fun setExpenseOptions(newOptions: List<Int>) {
+        if (newOptions.isEmpty() || newOptions.size != PREF_KEY_EXPENSE_OPTIONS.size) {
+            throw IllegalStateException("newOptions is empty or invalid size")
+        }
+        val prefEditor = PreferenceManager.getDefaultSharedPreferences(context).edit()
+        PREF_KEY_EXPENSE_OPTIONS.forEachIndexed { index, key ->  prefEditor.putInt(key, newOptions[index])}
+        prefEditor.apply()
+    }
+
 }

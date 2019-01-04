@@ -1,10 +1,14 @@
 <resources>
     <string name="app_name">Lunch Money Tracker</string>
     <string name="plus_symbol">+</string>
+    <string name="minus_symbol">-</string>
     <string name="edit_balance_dialog_title">Adjust Balance</string>
     <string name="edit_balance_dialog_positive">Adjust</string>
     <string name="edit_balance_dialog_negative">Cancel</string>
     <string name="edit_fund_option_dialog_title">Edit Options</string>
     <string name="edit_fund_option_dialog_positive">Finish</string>
     <string name="edit_fund_option_dialog_negative">Cancel</string>
+    <string name="edit_expense_option_dialog_title">Edit Options</string>
+    <string name="edit_expense_option_dialog_positive">Finish</string>
+    <string name="edit_expense_option_dialog_negative">Cancel</string>
 </resources>

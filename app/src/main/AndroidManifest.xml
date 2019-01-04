@@ -23,6 +23,8 @@
                 android:name=".AddFundsActivity"
                 android:launchMode="singleTop">
         </activity>
+        <activity android:name=".AddExpenseActivity">
+        </activity>
     </application>
 
 </manifest>

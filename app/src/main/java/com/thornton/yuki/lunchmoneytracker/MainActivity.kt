@@ -17,7 +17,6 @@ import com.afollestad.materialdialogs.customview.getCustomView
 
 import com.thornton.yuki.lunchmoneytracker.storage.*
 import com.thornton.yuki.lunchmoneytracker.entity.Transaction
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -26,7 +25,8 @@ const val INTENT_KEY_HAS_NEW_ENTRY = "HAS_NEW_ENTRY"
 class MainActivity : AppCompatActivity() {
 
     private val tag = "LUNCH_DEV_MAIN_ACT"
-    private val activityCode = 1
+    private val addFundsActivityCode = 1
+    private val addExpensesActivityCode = 2
     private val dateFormat = SimpleDateFormat("MM/DD(EEE) HH:mm")
 
     private val storage: StorageManager = StorageManager(this)
@@ -81,12 +81,22 @@ class MainActivity : AppCompatActivity() {
     private fun startAddFundsActivity() {
         Log.d(tag, "Starting AddFundsActivity")
         val intent = Intent(this, AddFundsActivity::class.java)
-        startActivityForResult(intent, activityCode)
+        startActivityForResult(intent, addFundsActivityCode)
+    }
+
+    fun onAddExpensesClicked(view: View) {
+        startAddExpensesActivity()
+    }
+
+    private fun startAddExpensesActivity() {
+        Log.d(tag, "Starting AddExpenseActivity")
+        val intent = Intent(this, AddExpenseActivity::class.java)
+        startActivityForResult(intent, addExpensesActivityCode)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == activityCode && resultCode == Activity.RESULT_OK) {
+        if ((requestCode == addFundsActivityCode || requestCode == addExpensesActivityCode) && resultCode == Activity.RESULT_OK) {
             val safeIntent = data ?: intent
             if (safeIntent.getBooleanExtra(INTENT_KEY_HAS_NEW_ENTRY, false)) {
                 refreshView()
