@@ -1,11 +1,15 @@
 package com.thornton.yuki.lunchmoneytracker.entity
 
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
+
+private val TIME_FORMATTER = DateTimeFormatter.ISO_DATE_TIME
 
 data class Transaction (
     val type: Type,
     val amount: Int,
-    val calendar: Calendar = Calendar.getInstance()
+    val time: LocalDateTime = LocalDateTime.now()
 ) {
     enum class Type(val symbol: String) {
         PLUS("+"),
@@ -17,6 +21,6 @@ data class Transaction (
     }
 
     override fun toString(): String {
-        return "${calendar.get(Calendar.DAY_OF_MONTH)}: ${amountWithSymbol()}"
+        return "${time.format(TIME_FORMATTER)}: ${amountWithSymbol()}"
     }
 }

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content" android:padding="16px">
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:gravity="center">
+        <TextView
+                android:id="@+id/exp_spv_time_label"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Time"
+                android:fontFamily="monospace"
+                android:typeface="monospace"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+        <TextView
+                android:id="@+id/exp_spv_time_input"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="19:30"
+                android:fontFamily="monospace"
+                android:typeface="monospace"
+                android:textStyle="bold"
+                android:textSize="24sp"
+                android:onClick="onExpenseSupervisingTimeClicked"
+                android:textColor="?android:attr/textColorPrimary" android:ems="4" android:gravity="right"/>
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:gravity="center_horizontal">
+        <TextView
+                android:id="@+id/exp_spv_amount_label"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Amount"
+                android:fontFamily="monospace" android:typeface="monospace" android:textSize="18sp"
+                android:textStyle="bold"/>
+        <EditText
+                android:id="@+id/exp_spv_amount_input"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="4"
+                android:fontFamily="monospace" android:typeface="monospace"
+                android:textSize="24sp" android:text="480" android:textStyle="bold"
+                android:textColor="?android:attr/textColorPrimary" android:inputType="number" android:gravity="right"/>
+    </LinearLayout>
+</LinearLayout>

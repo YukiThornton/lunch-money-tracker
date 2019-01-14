@@ -17,24 +17,26 @@ import com.afollestad.materialdialogs.customview.getCustomView
 
 import com.thornton.yuki.lunchmoneytracker.storage.*
 import com.thornton.yuki.lunchmoneytracker.entity.Transaction
-import java.text.SimpleDateFormat
-import java.util.*
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 const val INTENT_KEY_HAS_NEW_ENTRY = "HAS_NEW_ENTRY"
+private const val TAG = "LUNCH_DEV_MAIN_ACT"
+private const val TIME_FORMAT = "MM/DD(EEE) HH:mm"
+private val TIME_FORMATTER = DateTimeFormatter.ofPattern(TIME_FORMAT)
 
 class MainActivity : AppCompatActivity() {
 
-    private val tag = "LUNCH_DEV_MAIN_ACT"
     private val addFundsActivityCode = 1
     private val addExpensesActivityCode = 2
-    private val dateFormat = SimpleDateFormat("MM/DD(EEE) HH:mm")
 
-    private val storage: StorageManager = StorageManager(this)
+    private lateinit var storage: StorageManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        storage = StorageManager.getInstance(applicationContext)
         val balance = storage.getBalance()
-        Log.d(tag, "onCreate: balance=$balance")
+        Log.d(TAG, "onCreate: balance=$balance")
 
         setContentView(R.layout.activity_main)
         findViewById<TextView>(R.id.balance).apply {
@@ -45,6 +47,7 @@ class MainActivity : AppCompatActivity() {
         }
         updateBalanceInView(balance)
         updateTransactionCards()
+
     }
 
     private fun openEditBalanceDialog() {
@@ -55,7 +58,7 @@ class MainActivity : AppCompatActivity() {
                 val editText = it.getCustomView()!!.findViewById<EditText>(R.id.balance_input)
                 val newBalance = Integer.parseInt(editText.text.toString())
 
-                Log.d(tag, "Changing balance from ${storage.getBalance()} to $newBalance")
+                Log.d(TAG, "Changing balance from ${storage.getBalance()} to $newBalance")
 
                 storage.setBalance(newBalance)
                 updateBalanceInView(newBalance)
@@ -79,7 +82,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startAddFundsActivity() {
-        Log.d(tag, "Starting AddFundsActivity")
+        Log.d(TAG, "Starting AddFundsActivity")
         val intent = Intent(this, AddFundsActivity::class.java)
         startActivityForResult(intent, addFundsActivityCode)
     }
@@ -89,9 +92,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startAddExpensesActivity() {
-        Log.d(tag, "Starting AddExpenseActivity")
+        Log.d(TAG, "Starting AddExpenseActivity")
         val intent = Intent(this, AddExpenseActivity::class.java)
         startActivityForResult(intent, addExpensesActivityCode)
+    }
+
+    fun onPreferenceButtonClicked(view: View) {
+        startPreferenceActivity()
+    }
+
+    private fun startPreferenceActivity() {
+        Log.d(TAG, "Starting PreferenceActivity")
+        val intent = Intent(this, PreferenceActivity::class.java)
+        startActivity(intent)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -105,7 +118,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun refreshView() {
-        Log.d(tag, "Refreshing views")
+        Log.d(TAG, "Refreshing views")
         updateBalanceInView(storage.getBalance())
         updateTransactionCards()
     }
@@ -125,12 +138,12 @@ class MainActivity : AppCompatActivity() {
             text = transaction.amountWithSymbol()
         }
         newCard.findViewById<TextView>(R.id.date).apply {
-            text = dateTimeText(transaction.calendar)
+            text = dateTimeText(transaction.time)
         }
         container.addView(newCard, 0)
     }
 
-    private fun dateTimeText(cal: Calendar): String {
-        return dateFormat.format(cal.time)
+    private fun dateTimeText(time: LocalDateTime): String {
+        return time.format(TIME_FORMATTER)
     }
 }

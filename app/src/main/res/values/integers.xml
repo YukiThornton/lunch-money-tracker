@@ -7,4 +7,7 @@
     <integer name="initial_expense_option_1">400</integer>
     <integer name="initial_expense_option_2">450</integer>
     <integer name="initial_expense_option_3">500</integer>
+    <integer name="initial_exp_spv_hour">13</integer>
+    <integer name="initial_exp_spv_minute">37</integer>
+    <integer name="initial_default_daily_expense_amount">500</integer>
 </resources>

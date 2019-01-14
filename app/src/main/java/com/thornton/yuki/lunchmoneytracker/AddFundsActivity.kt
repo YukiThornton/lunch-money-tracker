@@ -17,15 +17,16 @@ import com.afollestad.materialdialogs.customview.getCustomView
 import com.thornton.yuki.lunchmoneytracker.storage.StorageManager
 import com.thornton.yuki.lunchmoneytracker.entity.Transaction
 
+private const val TAG = "LUNCH_DEV_ADD_FUNDS_ACT"
+
 class AddFundsActivity : AppCompatActivity() {
 
-    private val tag = "LUNCH_DEV_ADD_FUNDS_ACT"
-
-    private val storage: StorageManager = StorageManager(this)
     private val optionButtonIds = arrayOf(R.id.option_1_button, R.id.option_2_button, R.id.option_3_button)
+    private lateinit var storage: StorageManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        storage = StorageManager.getInstance(applicationContext)
         setContentView(R.layout.activity_add_funds)
 
         findViewById<EditText>(R.id.custom_option_input).apply {
@@ -44,7 +45,7 @@ class AddFundsActivity : AppCompatActivity() {
     }
 
     private fun addFundsAndReturnMain(amount: Int) {
-        Log.d(tag, "Adding funds: +$amount")
+        Log.d(TAG, "Adding funds: +$amount")
 
         addAndSaveBalance(amount)
 
@@ -56,7 +57,7 @@ class AddFundsActivity : AppCompatActivity() {
 
     private fun addAndSaveBalance(amountToAdd: Int) {
         val total = amountToAdd + storage.getBalance()
-        Log.d(tag, "Changing balance from ${storage.getBalance()} to $total")
+        Log.d(TAG, "Changing balance from ${storage.getBalance()} to $total")
         storage.setBalance(total)
     }
 
@@ -88,7 +89,7 @@ class AddFundsActivity : AppCompatActivity() {
                     val editText = it.getCustomView()!!.findViewById<EditText>(id)
                     Integer.parseInt(editText.text.toString())
                 }
-                Log.d(tag, "Updating fund option values: $newOptionValues")
+                Log.d(TAG, "Updating fund option values: $newOptionValues")
                 storage.setFundOptions(newOptionValues)
                 updateOptionsInView()
             }

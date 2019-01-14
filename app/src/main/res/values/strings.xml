@@ -11,4 +11,8 @@
     <string name="edit_expense_option_dialog_title">Edit Options</string>
     <string name="edit_expense_option_dialog_positive">Finish</string>
     <string name="edit_expense_option_dialog_negative">Cancel</string>
+    <string name="edit_expense_supervising_dialog_title">Add Expense Automatically</string>
+    <string name="edit_expense_supervising_dialog_positive_activate">Activate</string>
+    <string name="edit_expense_supervising_dialog_positive_apply">Apply Changes</string>
+    <string name="edit_expense_supervising_dialog_negative">Cancel</string>
 </resources>

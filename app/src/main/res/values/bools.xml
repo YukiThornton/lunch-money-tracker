@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <bool name="run_daily_exp_spv">false</bool>
+</resources>
