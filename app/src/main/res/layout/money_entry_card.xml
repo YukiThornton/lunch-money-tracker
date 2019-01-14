@@ -14,20 +14,30 @@
         <TextView
                 android:id="@+id/date"
                 android:text="2018/12/11"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 app:fontFamily="serif-monospace"/>
-        <TextView
-                android:id="@+id/money"
-                android:text="+1000"
+        <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="?android:attr/textColorSecondary"
-                android:gravity="right"
-                android:textSize="30sp"
-                android:textStyle="bold"
-                app:fontFamily="serif-monospace"
-        />
+                android:layout_height="match_parent" android:gravity="bottom|center_horizontal">
+            <ImageView
+                    android:layout_width="52dp"
+                    android:layout_height="wrap_content" app:srcCompat="@drawable/ic_repeat_black_24dp"
+                    android:id="@+id/repeat_icon" android:layout_weight="1" android:adjustViewBounds="false"
+                    android:cropToPadding="false" android:scaleType="fitStart" android:visibility="invisible"/>
+            <TextView
+                    android:id="@+id/money"
+                    android:text="+1000"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="?android:attr/textColorSecondary"
+                    android:gravity="right"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    app:fontFamily="serif-monospace"
+                    android:layout_weight="5"/>
+        </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
