@@ -16,8 +16,11 @@ const val PREF_KEY_TRANSACTIONS = "TRANSACTIONS"
 val PREF_KEY_FUND_OPTIONS = listOf("FUND_OPTION_1", "FUND_OPTION_2", "FUND_OPTION_3")
 val PREF_KEY_EXPENSE_OPTIONS = listOf("EXPENSE_OPTION_1", "EXPENSE_OPTION_2", "EXPENSE_OPTION_3")
 const val PREF_KEY_DAILY_EXP_SPV_SETTINGS = "DAILY_EXP_SPV_SETTINGS"
+const val PREF_KEY_DAILY_LOW_BAL_NTF_SETTINGS = "DAILY_LOW_BAL_NTF_SETTINGS"
 const val PREF_KEY_DEFAULT_DAILY_EXPENSE_AMOUNT = "DEFAULT_DAILY_EXPENSE_AMOUNT"
+const val PREF_KEY_LOW_BALANCE_THRESHOLD = "LOW_BALANCE_THRESHOLD"
 const val PREF_KEY_EXP_SPV_WORKER_ID = "EXP_SPV_WORKER_ID"
+const val PREF_KEY_LOW_BAL_NTF_WORKER_ID = "LOW_BAL_NTF_WORKER_ID"
 
 class StorageManager private constructor(private val context: Context) {
 
@@ -111,12 +114,37 @@ class StorageManager private constructor(private val context: Context) {
         prefEditor.apply()
     }
 
+    fun getLowBalanceNotificationSchedule(): DailyWorkSchedule {
+        val defaultSettings = getDefaultLowBalanceNotificationSettings()
+        val settingsJson = prefManager.getString(PREF_KEY_DAILY_LOW_BAL_NTF_SETTINGS, gson.toJson(defaultSettings))
+        return gson.fromJson(settingsJson, object: TypeToken<DailyWorkSchedule>(){}.type)
+    }
+
+    private fun getDefaultLowBalanceNotificationSettings(): DailyWorkSchedule {
+        val defaultTime = LocalTime.of(resInt(R.integer.initial_low_bal_ntf_hour),resInt(R.integer.initial_low_bal_ntf_minute))
+        return DailyWorkSchedule.of(resBool(R.bool.run_daily_low_bal_ntf), defaultTime)
+    }
+
+    fun setLowBalanceNotificationSchedule(settings: DailyWorkSchedule) {
+        prefEditor.putString(PREF_KEY_DAILY_LOW_BAL_NTF_SETTINGS, gson.toJson(settings))
+        prefEditor.apply()
+    }
+
     fun getDefaultDailyExpenseAmount(): Int {
         return prefManager.getInt(PREF_KEY_DEFAULT_DAILY_EXPENSE_AMOUNT, resInt(R.integer.initial_default_daily_expense_amount))
     }
 
     fun setDefaultDailyExpenseAmount(amount: Int) {
         prefEditor.putInt(PREF_KEY_DEFAULT_DAILY_EXPENSE_AMOUNT, amount)
+        prefEditor.apply()
+    }
+
+    fun getLowBalanceThreshold(): Int {
+        return prefManager.getInt(PREF_KEY_LOW_BALANCE_THRESHOLD, resInt(R.integer.initial_default_low_balance_threshold))
+    }
+
+    fun setLowBalanceThreshold(amount: Int) {
+        prefEditor.putInt(PREF_KEY_LOW_BALANCE_THRESHOLD, amount)
         prefEditor.apply()
     }
 
@@ -140,6 +168,21 @@ class StorageManager private constructor(private val context: Context) {
 
     fun removeExpenseSupervisingWorkerId() {
         prefEditor.remove(PREF_KEY_EXP_SPV_WORKER_ID)
+        prefEditor.commit()
+    }
+
+    fun getLowBalanceNotificationWorkerId(): UUID? {
+        val uuidJson = prefManager.getString(PREF_KEY_LOW_BAL_NTF_WORKER_ID, null)
+        return gson.fromJson(uuidJson, object : TypeToken<UUID>(){}.type)
+    }
+
+    fun setLowBalanceNotificationWorkerId(newId: UUID) {
+        prefEditor.putString(PREF_KEY_LOW_BAL_NTF_WORKER_ID, gson.toJson(newId))
+        prefEditor.apply()
+    }
+
+    fun removeLowBalanceNotificationWorkerId() {
+        prefEditor.remove(PREF_KEY_LOW_BAL_NTF_WORKER_ID)
         prefEditor.commit()
     }
 }

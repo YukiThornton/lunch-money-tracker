@@ -9,5 +9,8 @@
     <integer name="initial_expense_option_3">500</integer>
     <integer name="initial_exp_spv_hour">22</integer>
     <integer name="initial_exp_spv_minute">00</integer>
+    <integer name="initial_low_bal_ntf_hour">10</integer>
+    <integer name="initial_low_bal_ntf_minute">00</integer>
     <integer name="initial_default_daily_expense_amount">500</integer>
+    <integer name="initial_default_low_balance_threshold">1000</integer>
 </resources>

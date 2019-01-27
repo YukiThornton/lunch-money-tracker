@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <bool name="run_daily_exp_spv">false</bool>
+    <bool name="run_daily_low_bal_ntf">false</bool>
 </resources>

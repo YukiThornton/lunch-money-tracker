@@ -15,4 +15,8 @@
     <string name="edit_expense_supervising_dialog_positive_activate">Activate</string>
     <string name="edit_expense_supervising_dialog_positive_apply">Apply Changes</string>
     <string name="edit_expense_supervising_dialog_negative">Cancel</string>
+    <string name="edit_low_balance_notification_setting_dialog_title">Low Balance Notification</string>
+    <string name="edit_low_balance_notification_setting_dialog_positive_activate">Activate</string>
+    <string name="edit_low_balance_notification_setting_dialog_positive_apply">Apply Changes</string>
+    <string name="edit_low_balance_notification_setting_dialog_negative">Cancel</string>
 </resources>
